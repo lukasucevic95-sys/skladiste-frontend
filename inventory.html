@@ -3,17 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inventory</title>
+  <title>Zalihe</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>📋 Zalihe</h1>
+    <h1>📋 Zalihe (Inventory)</h1>
 
     <a href="index.html">⬅ Povratak</a>
 
-    <table border="1" cellpadding="10" style="margin-top:20px;width:100%">
+    <table>
       <thead>
         <tr>
           <th>Barkod</th>
@@ -21,20 +36,14 @@
           <th>Količina</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="productsBody">
         <tr>
-          <td>123456789012</td>
-          <td>Jogurt 1L</td>
-          <td>20</td>
-        </tr>
-        <tr>
-          <td>234567890123</td>
-          <td>Mlijeko 2L</td>
-          <td>15</td>
+          <td colspan="3">Učitavanje proizvoda...</td>
         </tr>
       </tbody>
     </table>
   </div>
 
+  <script src="inventory.js"></script>
 </body>
 </html>
