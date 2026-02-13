@@ -1,6 +1,11 @@
-const API_URL = "https://skladiste-app-production.up.railway.app";
-const TOKEN = "TVOJ_TOKEN_OVDJE"; // zamijeni s tvojim tokenom
+// ==========================
+// FRONTEND SCRIPT.JS
+// ==========================
 
+const API_URL = "https://skladiste-app-production.up.railway.app";
+const TOKEN = "TVOJ_STVARNI_TOKEN_OVDJE"; // <-- zamijeni sa stvarnim tokenom
+
+// ELEMENTI
 const barkodInput = document.getElementById("barkodInput");
 const scanBtn = document.getElementById("scanBtn");
 const productInfo = document.getElementById("productInfo");
@@ -17,7 +22,9 @@ const addProductBtn = document.getElementById("addProductBtn");
 
 let currentBarkod = "";
 
-// Kamera i barkod
+// ==========================
+// KAMERA I BARKOD
+// ==========================
 const html5QrCode = new Html5Qrcode("video");
 Html5Qrcode.getCameras().then(cameras => {
   if (cameras && cameras.length) {
@@ -31,9 +38,11 @@ Html5Qrcode.getCameras().then(cameras => {
       errorMessage => {}
     );
   }
-}).catch(err => console.error(err));
+}).catch(err => console.error("Kamera greška:", err));
 
-// Pretraži barkod
+// ==========================
+// PRETRAŽI BARKOD
+// ==========================
 scanBtn.addEventListener("click", async () => {
   const barkod = barkodInput.value.trim();
   if (!barkod) return;
@@ -42,6 +51,8 @@ scanBtn.addEventListener("click", async () => {
     const res = await fetch(`${API_URL}/product/${barkod}`, {
       headers: { Authorization: `Bearer ${TOKEN}` }
     });
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
     const data = await res.json();
 
     if (!data.postoji) {
@@ -56,5 +67,72 @@ scanBtn.addEventListener("click", async () => {
     productInfo.classList.remove("hidden");
     messageEl.innerText = "";
   } catch (err) {
+    console.error("Greška pri dohvaćanju proizvoda:", err);
+    messageEl.innerText = "Greška pri dohvaćanju proizvoda!";
+  }
+});
+
+// ==========================
+// DODAJ KOLIČINU
+// ==========================
+addBtn.addEventListener("click", async () => {
+  if (!currentBarkod) return;
+
+  try {
+    const res = await fetch(`${API_URL}/move`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`
+      },
+      body: JSON.stringify({ barkod: currentBarkod, delta: 1 })
+    });
+    const data = await res.json();
+    kolicinaEl.innerText = data.kolicina;
+  } catch (err) {
     console.error(err);
-    message
+    messageEl.innerText = "Greška pri dodavanju količine!";
+  }
+});
+
+// ==========================
+// ODUZMI KOLIČINU
+// ==========================
+removeBtn.addEventListener("click", async () => {
+  if (!currentBarkod) return;
+
+  try {
+    const res = await fetch(`${API_URL}/move`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`
+      },
+      body: JSON.stringify({ barkod: currentBarkod, delta: -1 })
+    });
+    const data = await res.json();
+    kolicinaEl.innerText = data.kolicina;
+  } catch (err) {
+    console.error(err);
+    messageEl.innerText = "Greška pri oduzimanju količine!";
+  }
+});
+
+// ==========================
+// DODAJ NOVI PROIZVOD
+// ==========================
+addProductBtn.addEventListener("click", async () => {
+  const barkod = newBarkod.value.trim();
+  const naziv = newNaziv.value.trim();
+  const kolicina = parseInt(newKolicina.value);
+
+  if (!barkod || !naziv || isNaN(kolicina)) {
+    messageEl.innerText = "Popuni sve podatke!";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/product`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "applica
