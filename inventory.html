@@ -1,31 +1,40 @@
-const API_URL = "https://skladiste-app-production.up.railway.app";
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventory</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-const tableBody = document.querySelector("#inventoryTable tbody");
-const searchInput = document.getElementById("search");
-const messageEl = document.getElementById("message");
+  <div class="container">
+    <h1>📋 Zalihe</h1>
 
-async function loadInventory() {
-  const res = await fetch(`${API_URL}/products`, {
-    headers: { Authorization: "Bearer tvoj-token" }
-  });
-  const data = await res.json();
+    <a href="index.html">⬅ Povratak</a>
 
-  tableBody.innerHTML = "";
-  data.forEach(p => {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${p.barkod}</td><td>${p.naziv}</td><td>${p.kolicina}</td>`;
-    tableBody.appendChild(row);
-  });
-}
+    <table border="1" cellpadding="10" style="margin-top:20px;width:100%">
+      <thead>
+        <tr>
+          <th>Barkod</th>
+          <th>Naziv</th>
+          <th>Količina</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>123456789012</td>
+          <td>Jogurt 1L</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>234567890123</td>
+          <td>Mlijeko 2L</td>
+          <td>15</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-searchInput.addEventListener("input", () => {
-  const filter = searchInput.value.toLowerCase();
-  Array.from(tableBody.rows).forEach(row => {
-    const barkod = row.cells[0].innerText.toLowerCase();
-    const naziv = row.cells[1].innerText.toLowerCase();
-    row.style.display = (barkod.includes(filter) || naziv.includes(filter)) ? "" : "none";
-  });
-});
-
-loadInventory();
-
+</body>
+</html>
