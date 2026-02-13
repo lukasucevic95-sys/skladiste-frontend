@@ -1,32 +1,27 @@
 const API_URL = "https://skladiste-app-production.up.railway.app";
 
-const tableBody = document.querySelector("#inventoryTable tbody");
-const searchInput = document.getElementById("search");
-const messageEl = document.getElementById("message");
+async function loadProducts() {
+  try {
+    const res = await fetch(`${API_URL}/products`);
+    const products = await res.json();
 
-async function loadInventory() {
-  const res = await fetch(`${API_URL}/products`, { // endpoint treba vratiti sve proizvode
-    headers: { Authorization: "Bearer tvoj-token" }
-  });
-  const data = await res.json();
+    const tbody = document.getElementById("productsBody");
+    tbody.innerHTML = "";
 
-  tableBody.innerHTML = "";
-  data.forEach(p => {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${p.barkod}</td><td>${p.naziv}</td><td>${p.kolicina}</td>`;
-    tableBody.appendChild(row);
-  });
+    products.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${p.barkod}</td>
+        <td>${p.naziv}</td>
+        <td>${p.kolicina}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  } catch (err) {
+    alert("Greška pri dohvaćanju proizvoda");
+    console.error(err);
+  }
 }
 
-searchInput.addEventListener("input", () => {
-  const filter = searchInput.value.toLowerCase();
-  Array.from(tableBody.rows).forEach(row => {
-    const barkod = row.cells[0].innerText.toLowerCase();
-    const naziv = row.cells[1].innerText.toLowerCase();
-    row.style.display = (barkod.includes(filter) || naziv.includes(filter)) ? "" : "none";
-  });
-});
-
-// inicijalno učitavanje
-loadInventory();
-
+loadProducts();
