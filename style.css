@@ -1,14 +1,76 @@
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
+  background-color: #f9f9f9;
 }
+
 .container {
   max-width: 600px;
   margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  font-size: 16px;
+  color: white;
+}
+
+/* Gumbi po funkciji */
+#inventoryBtn {
+  background-color: #3498db; /* plavi */
+}
+
+#scanBtn {
+  background-color: #2ecc71; /* zeleni */
+}
+
+#addBtn {
+  background-color: #2ecc71; /* zeleni */
+}
+
+#removeBtn {
+  background-color: #e74c3c; /* crveni */
+}
+
+#addProductBtn {
+  background-color: #9b59b6; /* ljubičasti */
+}
+
+/* Tablica */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+th {
+  background: #f2f2f2;
+}
+
 .hidden {
   display: none;
 }
-button {
-  cursor: pointer;
+
+#message {
+  margin-top: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: #e67e22;
 }
