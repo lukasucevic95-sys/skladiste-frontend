@@ -8,18 +8,42 @@
 </head>
 <body>
 
-  <div class="container">
-    <h1>📦 Skladište – Barkod Skener</h1>
+<div class="container">
+  <h1>📦 Skladište – Barkod Skener</h1>
 
-    <!-- Gumb za inventory -->
-    <a href="inventory.html">
-      <button id="inventoryBtn">📋 Pogledaj zalihe</button>
-    </a>
+  <!-- Gumb za inventory -->
+  <a href="inventory.html">
+    <button id="inventoryBtn">📋 Pogledaj zalihe</button>
+  </a>
 
-    <hr />
+  <hr />
 
-    <p>Backend je spojen. Frontend radi.</p>
+  <!-- Kamera i unos barkoda -->
+  <div class="scanner">
+    <video id="video" width="300" height="200" style="border:1px solid #ccc;"></video>
+    <input type="text" id="barkodInput" placeholder="ili unesi barkod ručno" />
+    <button id="scanBtn">Pretraži</button>
   </div>
 
-</body>
-</html>
+  <!-- Prikaz proizvoda -->
+  <div id="productInfo" class="hidden">
+    <p><strong>Naziv:</strong> <span id="nazivSpan"></span></p>
+    <p><strong>Količina:</strong> <span id="kolicinaSpan"></span></p>
+    <button id="addBtn">+ Dodaj</button>
+    <button id="removeBtn">- Oduzmi</button>
+  </div>
+
+  <!-- Forma za dodavanje novog proizvoda -->
+  <div class="add-product">
+    <h2>Dodaj novi proizvod</h2>
+    <input type="text" id="newBarkod" placeholder="Barkod" />
+    <input type="text" id="newNaziv" placeholder="Naziv" />
+    <input type="number" id="newKolicina" placeholder="Početna količina" />
+    <button id="addProductBtn">Dodaj proizvod</button>
+  </div>
+
+  <div id="message"></div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
+<script
